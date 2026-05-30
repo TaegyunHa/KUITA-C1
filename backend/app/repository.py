@@ -72,3 +72,31 @@ def list_articles(category: str | None = None) -> list[dict]:
     with connection() as conn:
         rows = conn.execute(sql, params).fetchall()
     return [dict(r) for r in rows]
+
+
+def get_uncategorised_articles(limit: int) -> list[dict]:
+    with connection() as conn:
+        rows = conn.execute(
+            "SELECT id, title, summary FROM articles WHERE category IS NULL ORDER BY id LIMIT ?",
+            (limit,),
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def update_categories(updates: list[dict]) -> int:
+    """Apply categorisation results. Each update: {id, category, tags, affects_whom}."""
+    now = _now()
+    updated = 0
+    with connection() as conn:
+        for u in updates:
+            cur = conn.execute(
+                """
+                UPDATE articles
+                SET category = :category, tags = :tags, affects_whom = :affects_whom,
+                    categorised_at = :categorised_at
+                WHERE id = :id
+                """,
+                {**u, "categorised_at": now},
+            )
+            updated += cur.rowcount
+    return updated
