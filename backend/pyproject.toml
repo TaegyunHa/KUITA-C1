@@ -1,0 +1,17 @@
+[project]
+name = "whatnow-backend"
+version = "0.1.0"
+description = "Backend for \"What now?\" — personalised UK news for Korean residents in the UK"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "httpx>=0.27",
+    "feedparser>=6.0",
+    "anthropic>=0.40",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+]
+
+[tool.uv]
+package = false

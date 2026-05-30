@@ -21,7 +21,7 @@ A 3-hour hackathon — a personalised UK news feed for Korean residents in the U
 - **Never work on `main`.** Always work on a feature branch when making changes.
 - **One task → one branch → one push.** Keep PRs small and reviewable.
 - **Use git actively throughout the build** — small, focused commits as work lands, not one mega-commit at the end.
-- **Ask before committing** when you reach a logical stopping point. Don't commit silently.
+- **Commit without asking** when you reach a logical stopping point. (Pushing and opening PRs still need confirmation.)
 - **Use `git worktree`** when parallelising work across tasks.
 
 ## 1. Think Before Coding
