@@ -4,6 +4,7 @@ from .. import repository
 from ..config import settings
 from ..taxonomy import CATEGORIES
 from .client import get_client
+from .parsing import extract_json_array
 
 BATCH_SIZE = 10
 
@@ -17,17 +18,6 @@ For EACH article:
 Respond with ONLY a JSON array, one object per input article, in the same order:
 [{{"id": <id>, "category": "<one of the list>", "tags": ["..."], "affects_whom": "..."}}]
 No markdown, no prose."""
-
-
-def _extract_json_array(text: str) -> list:
-    start = text.find("[")
-    end = text.rfind("]")
-    if start == -1 or end == -1:
-        return []
-    try:
-        return json.loads(text[start : end + 1])
-    except json.JSONDecodeError:
-        return []
 
 
 def _categorise_batch(articles: list[dict]) -> list[dict]:
@@ -45,7 +35,7 @@ def _categorise_batch(articles: list[dict]) -> list[dict]:
     text = "".join(b.text for b in resp.content if b.type == "text")
 
     updates: list[dict] = []
-    for item in _extract_json_array(text):
+    for item in extract_json_array(text):
         if item.get("category") not in CATEGORIES:
             continue
         updates.append(

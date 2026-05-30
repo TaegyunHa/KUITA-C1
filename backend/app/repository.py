@@ -74,6 +74,15 @@ def list_articles(category: str | None = None) -> list[dict]:
     return [dict(r) for r in rows]
 
 
+def get_categorised_articles() -> list[dict]:
+    with connection() as conn:
+        rows = conn.execute(
+            "SELECT * FROM articles WHERE category IS NOT NULL "
+            "ORDER BY COALESCE(published_at, fetched_at) DESC"
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
 def get_uncategorised_articles(limit: int) -> list[dict]:
     with connection() as conn:
         rows = conn.execute(
