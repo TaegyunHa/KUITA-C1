@@ -36,6 +36,7 @@ def feed():
                 impact_line=line,
                 summary=a["summary"],
                 url=a["url"],
+                published_at=a.get("published_at"),
             )
         )
     return cards

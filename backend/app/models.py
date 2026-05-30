@@ -47,3 +47,4 @@ class FeedCard(BaseModel):
     impact_line: str
     summary: str | None
     url: str
+    published_at: str | None

@@ -18,6 +18,15 @@ const chipLabel = computed(() =>
     : props.card.category
 )
 
+const publishedDate = computed(() => {
+  if (!props.card.published_at) return ''
+  const d = new Date(props.card.published_at)
+  if (isNaN(d)) return ''
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric', month: 'short', year: 'numeric',
+  }).format(d)
+})
+
 const sourceDomain = computed(() => {
   try {
     return new URL(props.card.url).hostname.replace('www.', '')
@@ -37,7 +46,10 @@ function openLink(e) {
     <div class="card-inner">
       <!-- FRONT -->
       <div class="card-face card-front" :style="{ background: colors.card }">
-        <span class="chip" :style="{ background: colors.chip }">{{ chipLabel }}</span>
+        <div class="card-meta">
+          <span class="chip" :style="{ background: colors.chip }">{{ chipLabel }}</span>
+          <span v-if="publishedDate" class="date">{{ publishedDate }}</span>
+        </div>
         <p class="title">{{ card.title }}</p>
         <p class="what-now-label">What now?</p>
         <p class="impact">{{ card.impact_line }}</p>
@@ -98,6 +110,13 @@ function openLink(e) {
   gap: 6px;
 }
 
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .chip {
   display: inline-block;
   padding: 3px 10px;
@@ -106,6 +125,12 @@ function openLink(e) {
   font-weight: 600;
   color: var(--text-main);
   align-self: flex-start;
+}
+
+.date {
+  font-size: 11px;
+  color: var(--text-sub);
+  flex-shrink: 0;
 }
 
 .title {
