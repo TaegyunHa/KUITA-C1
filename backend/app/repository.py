@@ -42,3 +42,33 @@ def upsert_profile(data: dict) -> dict:
         )
         row = conn.execute("SELECT * FROM profile WHERE id = 1").fetchone()
     return dict(row)
+
+
+def insert_articles(articles: list[dict]) -> int:
+    """Insert raw articles, ignoring duplicates by source_id. Returns inserted count."""
+    now = _now()
+    inserted = 0
+    with connection() as conn:
+        for a in articles:
+            cur = conn.execute(
+                """
+                INSERT OR IGNORE INTO articles
+                    (source, source_id, title, url, summary, published_at, fetched_at)
+                VALUES (:source, :source_id, :title, :url, :summary, :published_at, :fetched_at)
+                """,
+                {**a, "fetched_at": now},
+            )
+            inserted += cur.rowcount
+    return inserted
+
+
+def list_articles(category: str | None = None) -> list[dict]:
+    sql = "SELECT * FROM articles"
+    params: tuple = ()
+    if category:
+        sql += " WHERE category = ?"
+        params = (category,)
+    sql += " ORDER BY COALESCE(published_at, fetched_at) DESC"
+    with connection() as conn:
+        rows = conn.execute(sql, params).fetchall()
+    return [dict(r) for r in rows]

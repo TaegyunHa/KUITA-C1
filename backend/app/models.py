@@ -17,3 +17,20 @@ class ProfileIn(BaseModel):
 
 class ProfileOut(ProfileIn):
     updated_at: str
+
+
+class Article(BaseModel):
+    """Raw article row (debugging view for GET /articles)."""
+
+    id: int
+    source: str
+    source_id: str
+    title: str
+    url: str
+    summary: str | None
+    published_at: str | None
+    fetched_at: str
+    category: str | None
+    tags: str | None
+    affects_whom: str | None
+    categorised_at: str | None
