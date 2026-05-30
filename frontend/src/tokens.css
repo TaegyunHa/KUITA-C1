@@ -1,0 +1,49 @@
+:root {
+  --bg: #ffffff;
+  --main: #131415;
+  --accent: #03369d;
+  --accent-light: #dfe9ff;
+  --surface: #dbe0e8;
+  --text-main: #121416;
+  --text-sub: #777a8e;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-main);
+  background: var(--bg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font);
+  font-size: 14px;
+}
