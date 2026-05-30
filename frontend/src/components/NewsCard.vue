@@ -39,7 +39,7 @@ function openLink(e) {
       <div class="card-face card-front" :style="{ background: colors.card }">
         <span class="chip" :style="{ background: colors.chip }">{{ chipLabel }}</span>
         <p class="title">{{ card.title }}</p>
-        <p class="what-now-label">What now?</p>
+        <p class="what-now-label">What's my NOW</p>
         <p class="impact">{{ card.impact_line }}</p>
       </div>
 
