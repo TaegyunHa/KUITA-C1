@@ -34,3 +34,16 @@ class Article(BaseModel):
     tags: str | None
     affects_whom: str | None
     categorised_at: str | None
+
+
+class FeedCard(BaseModel):
+    """A personalised feed card. `label` is the fixed English brand string."""
+
+    id: int
+    title: str
+    category: str
+    category_ko: str
+    label: str
+    impact_line: str
+    summary: str | None
+    url: str
