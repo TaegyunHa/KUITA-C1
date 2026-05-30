@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     enable_govuk: bool = True
     seed_on_startup: bool = False
     feed_size: int = 6
+    categorise_limit: int = 40
     cors_origins: str = "http://localhost:5173"
 
     @property
