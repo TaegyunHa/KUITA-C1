@@ -74,6 +74,26 @@ def list_articles(category: str | None = None) -> list[dict]:
     return [dict(r) for r in rows]
 
 
+def insert_seed_articles(articles: list[dict]) -> int:
+    """Insert pre-categorised seed articles (dedup by source_id). Returns inserted count."""
+    now = _now()
+    inserted = 0
+    with connection() as conn:
+        for a in articles:
+            cur = conn.execute(
+                """
+                INSERT OR IGNORE INTO articles
+                    (source, source_id, title, url, summary, published_at, fetched_at,
+                     category, tags, affects_whom, categorised_at)
+                VALUES (:source, :source_id, :title, :url, :summary, :published_at, :fetched_at,
+                        :category, :tags, :affects_whom, :categorised_at)
+                """,
+                {**a, "fetched_at": now, "categorised_at": now},
+            )
+            inserted += cur.rowcount
+    return inserted
+
+
 def get_categorised_articles() -> list[dict]:
     with connection() as conn:
         rows = conn.execute(
